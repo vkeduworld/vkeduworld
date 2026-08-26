@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VkEduWorld — विद्यार्थी, शिक्षक, पालकांसाठी</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Tiro+Devanagari+Marathi&family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --board: #1B3A46;
+    --board-deep: #11262E;
+    --chalk: #F6F3EA;
+    --paper: #EFEAE0;
+    --amber: #E8A33D;
+    --coral: #DD5B45;
+    --teal-line: rgba(246,243,234,0.14);
+    --ink: #1B2320;
+    --ink-soft: #5B6560;
+    --card: #FFFFFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mr{ font-family:'Noto Sans Devanagari', sans-serif; }
+  .mr-display{ font-family:'Tiro Devanagari Marathi', serif; }
+  .en-display{ font-family:'Space Grotesk', sans-serif; }
+  .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:0.02em; }
+  a{ color:inherit; text-decoration:none; }
+  ::selection{ background:var(--amber); color:var(--board-deep); }
+  button{ font-family:inherit; cursor:pointer; }
+
+  /* ===== Top notice ribbon ===== */
+  .notice-ribbon{
+    background:var(--coral); color:#fff; font-size:0.8rem;
+    padding:7px clamp(16px,4vw,48px); display:flex; align-items:center; gap:10px;
+    overflow:hidden; white-space:nowrap;
+  }
+  .notice-ribbon .tag{
+    font-family:'JetBrains Mono', monospace; font-weight:700; font-size:0.68rem;
+    background:rgba(255,255,255,0.22); padding:2px 8px; border-radius:3px; flex-shrink:0;
+  }
+  .notice-ribbon .track{ display:inline-block; animation: scroll-left 22s linear infinite; }
+  @keyframes scroll-left{ 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
+
+  /* ===== Header / Nav ===== */
+  header.site{
+    background:var(--board); color:var(--chalk);
+    padding: 18px clamp(16px,4vw,48px);
+  }
+  .nav-row{ display:flex; align-items:center; justify-content:space-between; max-width:1200px; margin:0 auto; flex-wrap:wrap; gap:14px;}
+  .logo{ display:flex; align-items:center; gap:10px; }
+  .logo-mark{
+    width:38px; height:38px; border-radius:8px; background:var(--amber);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Space Grotesk', sans-serif; font-weight:700; color:var(--board-deep); font-size:1.1rem;
+  }
+  .logo-text .en-display{ font-size:1.15rem; font-weight:600; line-height:1; }
+  .logo-text .mr-display{ font-size:0.78rem; color:#B9CBC7; margin-top:2px;}
+  nav.links{ display:flex; gap:26px; flex-wrap:wrap; }
+  nav.links a{ font-size:0.9rem; color:#DCE7E4; font-weight:500; position:relative; }
+  nav.links a:hover{ color:var(--amber); }
+
+  /* ===== Hero ===== */
+  .hero{
+    background:var(--board);
+    background-image:
+      linear-gradient(var(--teal-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--teal-line) 1px, transparent 1px);
+    background-size: 34px 34px;
+    padding: 56px clamp(16px,4vw,48px) 70px;
+  }
+  .hero-inner{
+    max-width:1200px; margin:0 auto;
+    display:grid; grid-template-columns: 1.15fr 0.85fr; gap:50px; align-items:center;
+  }
+  .hero-copy .eyebrow{
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--amber);
+    letter-spacing:0.12em; text-transform:uppercase; margin-bottom:16px; display:block;
+  }
+  .hero-copy h1{
+    font-family:'Space Grotesk', sans-serif; color:var(--chalk);
+    font-size:clamp(2rem, 4vw, 3rem); line-height:1.12; font-weight:600;
+  }
+  .hero-copy .mr-display{
+    color:var(--chalk); font-size:clamp(1.4rem, 3vw, 2rem); margin-top:6px; line-height:1.3;
+  }
+  .hero-copy p.sub{
+    color:#C3D2CE; margin-top:18px; font-size:1rem; line-height:1.6; max-width:480px;
+  }
+  .audience-pills{ display:flex; gap:10px; margin-top:26px; flex-wrap:wrap; }
+  .audience-pills a{
+    background:rgba(246,243,234,0.08); border:1px solid rgba(246,243,234,0.25);
+    color:var(--chalk); padding:9px 18px; border-radius:999px; font-size:0.85rem; font-weight:500;
+    transition:all .2s;
+  }
+  .audience-pills a:hover{ background:var(--amber); color:var(--board-deep); border-color:var(--amber); }
+
+  /* Result search card - signature element */
+  .result-card{
+    background:var(--chalk); border-radius:14px; padding:30px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    position:relative;
+  }
+  .result-card::before{
+    content:"निकाल शोध"; font-family:'Tiro Devanagari Marathi', serif;
+    position:absolute; top:-14px; left:24px; background:var(--amber); color:var(--board-deep);
+    padding:5px 16px; border-radius:6px; font-size:0.95rem; font-weight:500;
+  }
+  .result-card .en-display{ font-size:0.78rem; color:var(--ink-soft); margin-top:14px; letter-spacing:0.04em; text-transform:uppercase; }
+  .result-card form{ margin-top:14px; display:flex; flex-direction:column; gap:12px; }
+  .result-card input, .result-card select{
+    padding:12px 14px; border:1.5px solid #D8D2C2; border-radius:8px;
+    font-size:0.92rem; font-family:'JetBrains Mono', monospace; background:#fff;
+  }
+  .result-card button.submit{
+    background:var(--board); color:#fff; border:none; padding:13px; border-radius:8px;
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:0.95rem;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .result-card button.submit:hover{ background:var(--board-deep); }
+  .result-card .note{
+    font-size:0.72rem; color:var(--ink-soft); margin-top:10px; line-height:1.5;
+  }
+  .result-card .note.error{ color:var(--coral); font-weight:600; }
+  .result-card .note.loading{ color:var(--board); }
+
+  #resultOutput{ margin-top:16px; }
+  .result-header{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:2px solid var(--board); padding-bottom:8px; margin-bottom:10px;
+  }
+  .result-header .name{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:1.05rem; }
+  .result-header .roll{ font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:var(--ink-soft); }
+  table.marks-table{ width:100%; border-collapse:collapse; font-size:0.85rem; }
+  table.marks-table th{
+    text-align:left; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.05em;
+    color:var(--ink-soft); padding:6px 4px; border-bottom:1px solid #E4DECF;
+  }
+  table.marks-table td{ padding:7px 4px; border-bottom:1px solid #F0ECE1; }
+  table.marks-table td.grade{ font-weight:600; color:var(--board); text-align:right; }
+  table.marks-table td.total{ text-align:right; font-family:'JetBrains Mono',monospace; }
+  .result-summary{
+    display:flex; justify-content:space-between; margin-top:12px; padding-top:10px;
+    border-top:2px solid var(--board); font-size:0.85rem; flex-wrap:wrap; gap:8px;
+  }
+  .result-summary .stat{ text-align:center; }
+  .result-summary .stat .val{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.1rem; color:var(--board); }
+  .result-summary .stat .lbl{ font-size:0.68rem; color:var(--ink-soft); text-transform:uppercase; }
+
+  /* ===== Audience section ===== */
+  main{ max-width:1200px; margin:0 auto; padding: 60px clamp(16px,4vw,48px); }
+  .section-head{ margin-bottom:30px; }
+  .section-head .tag{
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--coral);
+    letter-spacing:0.1em; text-transform:uppercase;
+  }
+  .section-head .en-display{ font-size:1.7rem; margin-top:8px; }
+  .section-head .mr-display{ font-size:1.15rem; color:var(--ink-soft); margin-top:4px; }
+
+  .audience-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+  .audience-card{
+    background:var(--card); border-radius:12px; padding:28px; border:1px solid #E4DECF;
+    transition:transform .2s, box-shadow .2s; cursor:pointer;
+  }
+  .audience-card:hover{ transform:translateY(-4px); box-shadow:0 14px 30px rgba(27,58,70,0.1); }
+  .audience-card .icon{
+    width:46px; height:46px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+    font-size:1.4rem; margin-bottom:16px;
+  }
+  .audience-card:nth-child(1) .icon{ background:#E8F0EE; }
+  .audience-card:nth-child(2) .icon{ background:#FBEEE0; }
+  .audience-card:nth-child(3) .icon{ background:#F5E5E1; }
+  .audience-card .en-display{ font-size:1.15rem; }
+  .audience-card .mr-display{ font-size:1rem; color:var(--board); margin-top:2px; }
+  .audience-card ul{ margin-top:14px; padding-left:18px; color:var(--ink-soft); font-size:0.87rem; line-height:1.9; }
+
+  /* ===== Notice board + resources ===== */
+  .two-col{ display:grid; grid-template-columns: 1.3fr 1fr; gap:40px; margin-top:70px; }
+  .notice-list{ display:flex; flex-direction:column; gap:0; border:1px solid #E4DECF; border-radius:10px; overflow:hidden; background:var(--card);}
+  .notice-item{ display:flex; gap:16px; padding:16px 18px; border-bottom:1px solid #EFEAE0; align-items:flex-start; }
+  .notice-item:last-child{ border-bottom:none; }
+  .notice-date{
+    font-family:'JetBrains Mono', monospace; font-size:0.7rem; color:#fff; background:var(--board);
+    padding:4px 8px; border-radius:5px; flex-shrink:0; height:fit-content; margin-top:2px;
+  }
+  .notice-item .title{ font-size:0.92rem; font-weight:500; }
+  .notice-item .cat{ font-size:0.72rem; color:var(--coral); margin-top:3px; font-family:'JetBrains Mono',monospace;}
+
+  .resource-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .resource-card{
+    background:var(--card); border:1px solid #E4DECF; border-radius:10px; padding:18px;
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .resource-card .en-display{ font-size:0.95rem; }
+  .resource-card .mr{ font-size:0.8rem; color:var(--ink-soft); }
+  .resource-card .dl{ font-size:0.78rem; color:var(--board); font-weight:600; margin-top:auto; }
+
+  /* ===== Teachers preview ===== */
+  .teacher-strip{
+    margin-top:70px; background:var(--board); border-radius:16px; padding:40px clamp(20px,4vw,50px);
+    color:var(--chalk);
+  }
+  .teacher-strip .section-head .en-display, .teacher-strip .section-head .mr-display{ color:var(--chalk); }
+  .teacher-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:24px; }
+  .teacher-card{
+    background:rgba(246,243,234,0.06); border:1px solid rgba(246,243,234,0.15); border-radius:10px;
+    padding:18px; text-align:center;
+  }
+  .teacher-avatar{
+    width:52px; height:52px; border-radius:50%; background:var(--amber); margin:0 auto 10px;
+    display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif;
+    font-weight:700; color:var(--board-deep);
+  }
+  .teacher-card .name{ font-size:0.9rem; font-weight:500; }
+  .teacher-card .subject{ font-size:0.75rem; color:#B9CBC7; margin-top:2px; }
+  .teacher-card .email{ font-size:0.68rem; color:var(--amber); margin-top:8px; font-family:'JetBrains Mono',monospace; word-break:break-all; }
+
+  footer{
+    background:var(--board-deep); color:#C3D2CE; margin-top:70px; padding:40px clamp(16px,4vw,48px) 26px;
+  }
+  .footer-inner{ max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:36px; }
+  footer .en-display{ color:var(--chalk); font-size:1.1rem; }
+  footer .mr-display{ color:#B9CBC7; font-size:0.85rem; margin-top:4px;}
+  footer p{ font-size:0.85rem; margin-top:12px; line-height:1.6; max-width:320px; }
+  footer h4{ font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--amber); margin-bottom:12px; }
+  footer ul{ list-style:none; display:flex; flex-direction:column; gap:9px; font-size:0.87rem; }
+  .footer-bottom{ max-width:1200px; margin:30px auto 0; padding-top:20px; border-top:1px solid rgba(246,243,234,0.1); font-size:0.75rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+
+  @media (max-width: 900px){
+    .hero-inner, .two-col{ grid-template-columns:1fr; }
+    .audience-grid{ grid-template-columns:1fr; }
+    .teacher-grid{ grid-template-columns:repeat(2,1fr); }
+    .resource-grid{ grid-template-columns:1fr; }
+    .footer-inner{ grid-template-columns:1fr; }
+    nav.links{ display:none; }
+  }
+  @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
+  button:focus-visible, a:focus-visible, input:focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
+</style>
+</head>
+<body>
+
+<div class="notice-ribbon">
+  <span class="tag">सूचना</span>
+  <div class="track">
+    <span class="mr">🔔 इयत्ता १० वी व १२ वी बोर्ड निकाल जाहीर — निकाल विभागात पहा &nbsp;&nbsp;•&nbsp;&nbsp; 📢 शिष्यवृत्ती परीक्षा नोंदणी सुरू &nbsp;&nbsp;•&nbsp;&nbsp; 💻 नवीन डिजिटल क्लासरूम साहित्य अपलोड झाले</span>
+  </div>
+</div>
+
+<header class="site">
+  <div class="nav-row">
+    <div class="logo">
+      <div class="logo-mark">Vk</div>
+      <div class="logo-text">
+        <div class="en-display">VkEduWorld</div>
+        <div class="mr-display">विद्यार्थी · शिक्षक · पालक</div>
+      </div>
+    </div>
+    <nav class="links">
+      <a href="#audience">होम</a>
+      <a href="#audience">विद्यार्थी</a>
+      <a href="#audience">शिक्षक</a>
+      <a href="#notices">सूचना</a>
+      <a href="#resources">साहित्य</a>
+      <a href="#contact">संपर्क</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow">Education · Technology · Community</span>
+      <h1>Learning, all in one place.</h1>
+      <div class="mr-display">विद्यार्थी, शिक्षक आणि पालकांसाठी एकच व्यासपीठ</div>
+      <p class="sub mr">निकाल, अभ्याससाहित्य, शिक्षकांशी संपर्क, तंत्रज्ञान माहिती आणि सूचना — सगळं एका ठिकाणी, सोप्या आणि आकर्षक पद्धतीने.</p>
+      <div class="audience-pills">
+        <a href="#audience">👨‍🎓 विद्यार्थ्यांसाठी</a>
+        <a href="#audience">👩‍🏫 शिक्षकांसाठी</a>
+        <a href="#audience">👪 पालकांसाठी</a>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <div class="en-display">Enter roll number &amp; division</div>
+      <form id="resultForm">
+        <input type="text" id="rollInput" placeholder="रोल नंबर / Roll No. (उदा. 7201)" required>
+        <select id="divisionInput" required>
+          <option value="">तुकडी निवडा — Division</option>
+          <option value="A">अ / A</option>
+          <option value="B">ब / B</option>
+          <option value="C">क / C</option>
+        </select>
+        <button type="submit" class="submit" id="searchBtn">
+          निकाल पहा
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
+      <div class="note" id="resultNote"></div>
+      <div id="resultOutput"></div>
+    </div>
+  </div>
+</section>
+
+<main>
+  <section id="audience">
+    <div class="section-head">
+      <span class="tag">तीन दालनं · Three spaces</span>
+      <div class="en-display">Built around who's using it</div>
+      <div class="mr-display">प्रत्येकासाठी वेगळा, गरजेनुसार विभाग</div>
+    </div>
+    <div class="audience-grid">
+      <div class="audience-card">
+        <div class="icon">👨‍🎓</div>
+        <div class="en-display">Students</div>
+        <div class="mr-display">विद्यार्थी विभाग</div>
+        <ul>
+          <li>निकाल शोध</li>
+          <li>अभ्याससाहित्य व नोट्स</li>
+          <li>स्पर्धा परीक्षा सराव</li>
+          <li>ई-बुक्स डाउनलोड</li>
+        </ul>
+      </div>
+      <div class="audience-card">
+        <div class="icon">👩‍🏫</div>
+        <div class="en-display">Teachers</div>
+        <div class="mr-display">शिक्षक विभाग</div>
+        <ul>
+          <li>संपर्क माहिती (ईमेल)</li>
+          <li>अध्यापन साहित्य अपलोड</li>
+          <li>वेळापत्रक व सूचना</li>
+          <li>तंत्रज्ञान प्रशिक्षण संसाधने</li>
+        </ul>
+      </div>
+      <div class="audience-card">
+        <div class="icon">👪</div>
+        <div class="en-display">Parents</div>
+        <div class="mr-display">पालक विभाग</div>
+        <ul>
+          <li>पाल्याचा निकाल व प्रगती</li>
+          <li>शाळेच्या सूचना</li>
+          <li>शिक्षकांशी थेट संपर्क</li>
+          <li>प्रवेश व शिष्यवृत्ती माहिती</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="two-col">
+    <section id="notices">
+      <div class="section-head">
+        <span class="tag">सूचना फलक</span>
+        <div class="en-display">Notice board</div>
+      </div>
+      <div class="notice-list">
+        <div class="notice-item">
+          <span class="notice-date mono">25 ऑग</span>
+          <div>
+            <div class="title mr">इयत्ता ८ वी शिष्यवृत्ती परीक्षा सराव चाचणी उपलब्ध</div>
+            <div class="cat">स्पर्धा परीक्षा</div>
+          </div>
+        </div>
+        <div class="notice-item">
+          <span class="notice-date mono">20 ऑग</span>
+          <div>
+            <div class="title mr">नवीन डिजिटल क्लासरूम साहित्य — विज्ञान इयत्ता ७ वी</div>
+            <div class="cat">अभ्याससाहित्य</div>
+          </div>
+        </div>
+        <div class="notice-item">
+          <span class="notice-date mono">14 ऑग</span>
+          <div>
+            <div class="title mr">पालक-शिक्षक सभा — दिनांक व वेळ जाहीर</div>
+            <div class="cat">सूचना</div>
+          </div>
+        </div>
+        <div class="notice-item">
+          <span class="notice-date mono">05 ऑग</span>
+          <div>
+            <div class="title mr">NMMS शिष्यवृत्ती अर्ज सुरू — शेवटची तारीख जवळ</div>
+            <div class="cat">शिष्यवृत्ती</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="resources">
+      <div class="section-head">
+        <span class="tag">साहित्य</span>
+        <div class="en-display">Downloads</div>
+      </div>
+      <div class="resource-grid">
+        <div class="resource-card">
+          <div class="en-display">Balbharati eBooks</div>
+          <div class="mr">इयत्ता १ ली ते १२ वी पाठ्यपुस्तके</div>
+          <div class="dl">डाउनलोड करा →</div>
+        </div>
+        <div class="resource-card">
+          <div class="en-display">Practice Papers</div>
+          <div class="mr">स्पर्धा परीक्षा सराव प्रश्नपत्रिका</div>
+          <div class="dl">डाउनलोड करा →</div>
+        </div>
+        <div class="resource-card">
+          <div class="en-display">Digital Classroom Kit</div>
+          <div class="mr">तंत्रज्ञान वापरून शिकवण्याचे साहित्य</div>
+          <div class="dl">डाउनलोड करा →</div>
+        </div>
+        <div class="resource-card">
+          <div class="en-display">Admission Forms</div>
+          <div class="mr">प्रवेश अर्ज व सूचना</div>
+          <div class="dl">डाउनलोड करा →</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="teacher-strip">
+    <div class="section-head">
+      <span class="tag" style="color:var(--amber)">संपर्क</span>
+      <div class="en-display">Meet the teachers</div>
+      <div class="mr-display">शिक्षक संपर्क सूची (नमुना)</div>
+    </div>
+    <div class="teacher-grid">
+      <div class="teacher-card">
+        <div class="teacher-avatar">पी</div>
+        <div class="name mr">श्रीमती पी. पी. शेटे</div>
+        <div class="subject mr">बुद्धिमत्ता विषय</div>
+        <div class="email">shete.pp@vkeduworld.in</div>
+      </div>
+      <div class="teacher-card">
+        <div class="teacher-avatar">एस</div>
+        <div class="name mr">श्री. एस. यू. तांबोळी</div>
+        <div class="subject mr">सामाजिकशास्त्रे</div>
+        <div class="email">tamboli.su@vkeduworld.in</div>
+      </div>
+      <div class="teacher-card">
+        <div class="teacher-avatar">व्ही</div>
+        <div class="name mr">श्री. व्ही. एन. खाडे</div>
+        <div class="subject mr">विज्ञान</div>
+        <div class="email">khade.vn@vkeduworld.in</div>
+      </div>
+      <div class="teacher-card">
+        <div class="teacher-avatar">बी</div>
+        <div class="name mr">श्री. बी. व्ही. पवार</div>
+        <div class="subject mr">गणित</div>
+        <div class="email">pawar.bv@vkeduworld.in</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="footer-inner">
+    <div>
+      <div class="en-display">VkEduWorld</div>
+      <div class="mr-display">विद्यार्थी · शिक्षक · पालक यांचं व्यासपीठ</div>
+      <p class="mr">शिक्षण, शैक्षणिक माहिती आणि तंत्रज्ञान यांची सांगड घालणारं एक व्यासपीठ — सर्वांसाठी सोपं आणि उपयुक्त.</p>
+    </div>
+    <div>
+      <h4>विभाग</h4>
+      <ul class="mr">
+        <li>विद्यार्थी</li>
+        <li>शिक्षक</li>
+        <li>पालक</li>
+        <li>सूचना फलक</li>
+      </ul>
+    </div>
+    <div>
+      <h4>संपर्क</h4>
+      <ul class="mr">
+        <li>info@vkeduworld.in</li>
+        <li>सोलापूर, महाराष्ट्र</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 VkEduWorld</span>
+    <span class="mono">Prototype v1 — demo data</span>
+  </div>
+</footer>
+
+<script>
+// ===== Result search: connected to Google Sheets via Apps Script =====
+const RESULT_API_URL = "https://script.google.com/macros/s/AKfycbyT6VL9T2kLzTPYfoP5kcA2dLHZD1ZVmAYY5zY9yK_4oFGYCHfNhxma6gvX4_I7-ZeDEw/exec";
+
+const SUBJECTS = [
+  ["Marathi", "मराठी"],
+  ["Hindi", "हिंदी"],
+  ["English", "इंग्रजी"],
+  ["Maths", "गणित"],
+  ["Science", "सा.विज्ञान"],
+  ["SocSci", "सामाजिक शास्त्रे"],
+  ["Art", "कला"],
+  ["WorkExp", "कार्यानुभव"],
+  ["PhyEdu", "शा.शिक्षण"]
+];
+
+// JSONP helper — avoids CORS issues with Google Apps Script
+function jsonpRequest(url) {
+  return new Promise((resolve, reject) => {
+    const callbackName = 'vkeduCallback_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+    const script = document.createElement('script');
+    let settled = false;
+
+    window[callbackName] = (data) => {
+      settled = true;
+      resolve(data);
+      delete window[callbackName];
+      script.remove();
+    };
+
+    script.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + callbackName;
+    script.onerror = () => {
+      if (!settled) {
+        reject(new Error('JSONP request failed'));
+        delete window[callbackName];
+        script.remove();
+      }
+    };
+    document.body.appendChild(script);
+
+    setTimeout(() => {
+      if (!settled) {
+        reject(new Error('Request timed out'));
+        delete window[callbackName];
+        script.remove();
+      }
+    }, 10000);
+  });
+}
+
+document.getElementById('resultForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const roll = document.getElementById('rollInput').value.trim();
+  const division = document.getElementById('divisionInput').value.trim();
+  const note = document.getElementById('resultNote');
+  const output = document.getElementById('resultOutput');
+  const btn = document.getElementById('searchBtn');
+
+  output.innerHTML = '';
+  note.className = 'note loading';
+  note.textContent = 'निकाल शोधत आहोत...';
+  btn.disabled = true;
+
+  try {
+    const url = `${RESULT_API_URL}?roll=${encodeURIComponent(roll)}&division=${encodeURIComponent(division)}`;
+    const json = await jsonpRequest(url);
+
+    if (!json.found) {
+      note.className = 'note error';
+      note.textContent = '⚠️ हा रोल नंबर व तुकडी यांचा निकाल सापडला नाही. कृपया माहिती तपासून पुन्हा प्रयत्न करा.';
+      btn.disabled = false;
+      return;
+    }
+
+    const d = json.data;
+    note.className = 'note';
+    note.textContent = '';
+
+    let rows = SUBJECTS.map(([key, label]) => `
+      <tr>
+        <td>${label}</td>
+        <td class="total">${d[key + '_Total'] ?? '-'}</td>
+        <td class="grade">${d[key + '_Grade'] ?? '-'}</td>
+      </tr>
+    `).join('');
+
+    output.innerHTML = `
+      <div class="result-header">
+        <span class="name mr">${d.Name}</span>
+        <span class="roll">Roll ${d.RollNo} · वर्ग ${d.Class}${d.Division}</span>
+      </div>
+      <table class="marks-table">
+        <thead><tr><th>विषय</th><th style="text-align:right">एकूण</th><th style="text-align:right">श्रेणी</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div class="result-summary">
+        <div class="stat"><div class="val">${d.GrandTotal}</div><div class="lbl">एकूण गुण</div></div>
+        <div class="stat"><div class="val">${d.Percentage}%</div><div class="lbl">टक्केवारी</div></div>
+        <div class="stat"><div class="val">${d.Remark}</div><div class="lbl">शेरा</div></div>
+        <div class="stat"><div class="val">#${d.Rank}</div><div class="lbl">गुणानुक्रम</div></div>
+      </div>
+    `;
+  } catch (err) {
+    note.className = 'note error';
+    note.textContent = '⚠️ निकाल आणताना अडचण आली. थोड्या वेळाने पुन्हा प्रयत्न करा.';
+  } finally {
+    btn.disabled = false;
+  }
+});
+</script>
+
+</body>
+</html>
