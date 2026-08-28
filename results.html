@@ -489,7 +489,7 @@ document.getElementById('resultForm').addEventListener('submit', async (e) => {
         <tbody>${rows}</tbody>
       </table>
       <div class="result-summary">
-        <div class="stat"><div class="val">${d.GrandTotal}</div><div class="lbl">एकूण गुण</div></div>
+        <div class="stat"><div class="val">${d.GrandTotal}</div><div class="lbl">प्राप्त गुण</div></div>
         <div class="stat"><div class="val">${d.Percentage}%</div><div class="lbl">टक्केवारी</div></div>
         <div class="stat"><div class="val">${d.Remark}</div><div class="lbl">शेरा</div></div>
         <div class="stat"><div class="val">#${d.Rank}</div><div class="lbl">गुणानुक्रम</div></div>
@@ -517,11 +517,11 @@ document.getElementById('resultForm').addEventListener('submit', async (e) => {
         <span><strong>तुकडी:</strong> ${d.Class}${d.Division}</span>
       </div>
       <table class="print-table">
-        <thead><tr><th>विषय</th><th>एकूण गुण</th><th>श्रेणी</th></tr></thead>
+        <thead><tr><th>विषय</th><th>प्राप्त गुण</th><th>श्रेणी</th></tr></thead>
         <tbody>${printRows}</tbody>
       </table>
       <div class="print-summary">
-        <span>एकूण गुण: ${d.GrandTotal}</span>
+        <span>प्राप्त गुण: ${d.GrandTotal}</span>
         <span>टक्केवारी: ${d.Percentage}%</span>
         <span>शेरा: ${d.Remark}</span>
         <span>गुणानुक्रम: #${d.Rank}</span>
