@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VKEduWorld — विद्यार्थी, शिक्षक, पालकांसाठी</title>
+<title>निकाल शोध — VKEduWorld</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Tiro+Devanagari+Marathi&family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -279,6 +279,30 @@
   }
   @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
   button:focus-visible, a:focus-visible, input:focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
+
+  .print-sheet{
+    display:none;
+  }
+  @media print{
+    body *{ visibility:hidden; }
+    #printArea, #printArea *{ visibility:visible; }
+    #printArea{
+      display:block !important;
+      position:absolute; top:0; left:0; width:100%;
+      padding:30px; font-family:'Noto Sans Devanagari', sans-serif; color:#000;
+    }
+  }
+  #printArea{ display:none; }
+  .print-letterhead{ text-align:center; border-bottom:2px solid #000; padding-bottom:10px; margin-bottom:16px; }
+  .print-letterhead .org{ font-size:1.05rem; font-weight:600; }
+  .print-letterhead .school{ font-size:1.2rem; font-weight:700; margin-top:2px; }
+  .print-letterhead .title{ font-size:1rem; font-weight:600; margin-top:8px; letter-spacing:0.15em; }
+  .print-meta{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:16px; font-size:0.95rem; }
+  .print-table{ width:100%; border-collapse:collapse; font-size:0.92rem; }
+  .print-table th, .print-table td{ border:1px solid #000; padding:6px 10px; text-align:left; }
+  .print-table th{ background:#eee; }
+  .print-summary{ margin-top:14px; display:flex; gap:24px; flex-wrap:wrap; font-size:0.95rem; font-weight:600; }
+  .print-remark{ margin-top:20px; font-size:0.8rem; font-style:italic; border-top:1px dashed #000; padding-top:10px; }
 </style>
 </head>
 <body>
@@ -300,8 +324,8 @@
       </div>
     </a>
     <nav class="links">
-      <a href="index.html" class="active">होम</a>
-      <a href="results.html">निकाल</a>
+      <a href="index.html">होम</a>
+      <a href="results.html" class="active">निकाल</a>
       <a href="index.html#audience">विद्यार्थी</a>
       <a href="teachers.html">शिक्षक</a>
       <a href="index.html#notices">सूचना</a>
@@ -311,141 +335,35 @@
   </div>
 </header>
 
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-copy">
-      <span class="eyebrow">Education · Technology · Community</span>
-      <h1>Learning, all in one place.</h1>
-      <div class="mr-display">विद्यार्थी, शिक्षक आणि पालकांसाठी एकच व्यासपीठ</div>
-      <p class="sub mr">निकाल, अभ्याससाहित्य, शिक्षकांशी संपर्क, तंत्रज्ञान माहिती आणि सूचना — सगळं एका ठिकाणी, सोप्या आणि आकर्षक पद्धतीने.</p>
-      <div class="hero-ctas">
-        <a href="results.html" class="cta-primary">
-          🎓 निकाल पहा
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <a href="teachers.html" class="cta-secondary">👩‍🏫 शिक्षक संपर्क</a>
-      </div>
-      <div class="audience-pills">
-        <a href="#audience">👨‍🎓 विद्यार्थ्यांसाठी</a>
-        <a href="#audience">👩‍🏫 शिक्षकांसाठी</a>
-        <a href="#audience">👪 पालकांसाठी</a>
-      </div>
-    </div>
-  </div>
+<section class="page-hero">
+  <span class="eyebrow">Results · निकाल</span>
+  <h1>Check your result</h1>
+  <div class="mr-display">रोल नंबर व तुकडी टाकून निकाल पहा</div>
 </section>
 
-<main>
-  <section id="audience">
-    <div class="section-head">
-      <span class="tag">तीन दालनं · Three spaces</span>
-      <div class="en-display">Built around who's using it</div>
-      <div class="mr-display">प्रत्येकासाठी वेगळा, गरजेनुसार विभाग</div>
-    </div>
-    <div class="audience-grid">
-      <div class="audience-card">
-        <div class="icon">👨‍🎓</div>
-        <div class="en-display">Students</div>
-        <div class="mr-display">विद्यार्थी विभाग</div>
-        <ul>
-          <li><a href="results.html">निकाल शोध</a></li>
-          <li>अभ्याससाहित्य व नोट्स</li>
-          <li>स्पर्धा परीक्षा सराव</li>
-          <li>ई-बुक्स डाउनलोड</li>
-        </ul>
-      </div>
-      <div class="audience-card">
-        <div class="icon">👩‍🏫</div>
-        <div class="en-display">Teachers</div>
-        <div class="mr-display">शिक्षक विभाग</div>
-        <ul>
-          <li><a href="teachers.html">संपर्क माहिती (ईमेल)</a></li>
-          <li>अध्यापन साहित्य अपलोड</li>
-          <li>वेळापत्रक व सूचना</li>
-          <li>तंत्रज्ञान प्रशिक्षण संसाधने</li>
-        </ul>
-      </div>
-      <div class="audience-card">
-        <div class="icon">👪</div>
-        <div class="en-display">Parents</div>
-        <div class="mr-display">पालक विभाग</div>
-        <ul>
-          <li><a href="results.html">पाल्याचा निकाल व प्रगती</a></li>
-          <li>शाळेच्या सूचना</li>
-          <li><a href="teachers.html">शिक्षकांशी थेट संपर्क</a></li>
-          <li>प्रवेश व शिष्यवृत्ती माहिती</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <div class="two-col">
-    <section id="notices">
-      <div class="section-head">
-        <span class="tag">सूचना फलक</span>
-        <div class="en-display">Notice board</div>
-      </div>
-      <div class="notice-list">
-        <div class="notice-item">
-          <span class="notice-date mono">नवीन</span>
-          <div>
-            <div class="title mr">इयत्ता १० वी व १२ वी बोर्ड परीक्षा, शिष्यवृत्ती परीक्षा, एनएमएमएस परीक्षा फॉर्म नोंदणी सुरू झाली आहे. अधिक माहितीसाठी आपल्या शाळेशी संपर्क साधा.</div>
-            <div class="cat">नोंदणी</div>
-          </div>
-        </div>
-        <div class="notice-item">
-          <span class="notice-date mono">नवीन</span>
-          <div>
-            <div class="title mr">कर्मवीर जयंती निमित्त विविध कार्यक्रम व स्पर्धांमध्ये भाग घेण्यासाठी शाळेशी संपर्क साधा.</div>
-            <div class="cat">कार्यक्रम</div>
-          </div>
-        </div>
-        <div class="notice-item">
-          <span class="notice-date mono">नवीन</span>
-          <div>
-            <div class="title mr">घटक चाचणी एक चे निकाल लवकरच प्रसिद्ध होतील.</div>
-            <div class="cat">निकाल</div>
-          </div>
-        </div>
-        <div class="notice-item">
-          <span class="notice-date mono">नवीन</span>
-          <div>
-            <div class="title mr">नवीन डिजिटल क्लासरूम साहित्य अपलोड झाले.</div>
-            <div class="cat">अभ्याससाहित्य</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="resources">
-      <div class="section-head">
-        <span class="tag">साहित्य</span>
-        <div class="en-display">Downloads</div>
-      </div>
-      <div class="resource-grid">
-        <div class="resource-card">
-          <div class="en-display">Balbharati eBooks</div>
-          <div class="mr">इयत्ता १ ली ते १२ वी पाठ्यपुस्तके</div>
-          <a class="dl" href="https://books.ebalbharati.in/" target="_blank" rel="noopener">भेट द्या →</a>
-        </div>
-        <div class="resource-card">
-          <div class="en-display">Practice Papers</div>
-          <div class="mr">स्पर्धा परीक्षा सराव प्रश्नपत्रिका</div>
-          <div class="dl">लवकरच उपलब्ध</div>
-        </div>
-        <div class="resource-card">
-          <div class="en-display">Digital Classroom Kit</div>
-          <div class="mr">तंत्रज्ञान वापरून शिकवण्याचे साहित्य</div>
-          <div class="dl">लवकरच उपलब्ध</div>
-        </div>
-        <div class="resource-card">
-          <div class="en-display">Admission Forms</div>
-          <div class="mr">प्रवेश अर्ज व सूचना</div>
-          <div class="dl">लवकरच उपलब्ध</div>
-        </div>
-      </div>
-    </section>
+<main style="padding-top:0;">
+  <div class="result-card" id="results">
+    <div class="en-display">Enter roll number &amp; division</div>
+    <form id="resultForm">
+      <input type="text" id="rollInput" placeholder="रोल नंबर / Roll No. (उदा. 7201)" required>
+      <select id="divisionInput" required>
+        <option value="">तुकडी निवडा — Division</option>
+        <option value="A">अ / A</option>
+        <option value="B">ब / B</option>
+        <option value="C">क / C</option>
+      </select>
+      <button type="submit" class="submit" id="searchBtn">
+        निकाल पहा
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </form>
+    <div class="note" id="resultNote"></div>
+    <div id="resultOutput"></div>
+    <button class="print-btn" id="printBtn">🖨️ निकालपत्रक प्रिंट करा</button>
   </div>
 </main>
+
+<div id="printArea"></div>
 
 <footer id="contact">
   <div class="footer-inner">
@@ -476,6 +394,137 @@
     <span class="mono">रयत शिक्षण संस्थेचे, न्यू इंग्लिश स्कूल कुरुल</span>
   </div>
 </footer>
+
+<script>
+const RESULT_API_URL = "https://script.google.com/macros/s/AKfycbyT6VL9T2kLzTPYfoP5kcA2dLHZD1ZVmAYY5zY9yK_4oFGYCHfNhxma6gvX4_I7-ZeDEw/exec";
+
+const SUBJECTS = [
+  ["Marathi", "मराठी"],
+  ["Hindi", "हिंदी"],
+  ["English", "इंग्रजी"],
+  ["Maths", "गणित"],
+  ["Science", "सा.विज्ञान"],
+  ["SocSci", "सामाजिक शास्त्रे"],
+  ["Art", "कला"],
+  ["WorkExp", "कार्यानुभव"],
+  ["PhyEdu", "शा.शिक्षण"]
+];
+
+function jsonpRequest(url) {
+  return new Promise((resolve, reject) => {
+    const callbackName = 'vkeduCallback_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+    const script = document.createElement('script');
+    let settled = false;
+    window[callbackName] = (data) => {
+      settled = true; resolve(data); delete window[callbackName]; script.remove();
+    };
+    script.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + callbackName;
+    script.onerror = () => {
+      if (!settled) { reject(new Error('JSONP request failed')); delete window[callbackName]; script.remove(); }
+    };
+    document.body.appendChild(script);
+    setTimeout(() => {
+      if (!settled) { reject(new Error('Request timed out')); delete window[callbackName]; script.remove(); }
+    }, 10000);
+  });
+}
+
+document.getElementById('resultForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const roll = document.getElementById('rollInput').value.trim();
+  const division = document.getElementById('divisionInput').value.trim();
+  const note = document.getElementById('resultNote');
+  const output = document.getElementById('resultOutput');
+  const btn = document.getElementById('searchBtn');
+  const printBtn = document.getElementById('printBtn');
+
+  output.innerHTML = '';
+  printBtn.classList.remove('show');
+  note.className = 'note loading';
+  note.textContent = 'निकाल शोधत आहोत...';
+  btn.disabled = true;
+
+  try {
+    const url = `${RESULT_API_URL}?roll=${encodeURIComponent(roll)}&division=${encodeURIComponent(division)}`;
+    const json = await jsonpRequest(url);
+
+    if (!json.found) {
+      note.className = 'note error';
+      note.textContent = '⚠️ हा रोल नंबर व तुकडी यांचा निकाल सापडला नाही. कृपया माहिती तपासून पुन्हा प्रयत्न करा.';
+      btn.disabled = false;
+      return;
+    }
+
+    const d = json.data;
+    note.className = 'note';
+    note.textContent = '';
+
+    let rows = SUBJECTS.map(([key, label]) => `
+      <tr>
+        <td>${label}</td>
+        <td class="total">${d[key + '_Total'] ?? '-'}</td>
+        <td class="grade">${d[key + '_Grade'] ?? '-'}</td>
+      </tr>
+    `).join('');
+
+    output.innerHTML = `
+      <div class="result-header">
+        <span class="name mr">${d.Name}</span>
+        <span class="roll">Roll ${d.RollNo} · वर्ग ${d.Class}${d.Division}</span>
+      </div>
+      <table class="marks-table">
+        <thead><tr><th>विषय</th><th style="text-align:right">एकूण</th><th style="text-align:right">श्रेणी</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div class="result-summary">
+        <div class="stat"><div class="val">${d.GrandTotal}</div><div class="lbl">एकूण गुण</div></div>
+        <div class="stat"><div class="val">${d.Percentage}%</div><div class="lbl">टक्केवारी</div></div>
+        <div class="stat"><div class="val">${d.Remark}</div><div class="lbl">शेरा</div></div>
+        <div class="stat"><div class="val">#${d.Rank}</div><div class="lbl">गुणानुक्रम</div></div>
+      </div>
+    `;
+
+    let printRows = SUBJECTS.map(([key, label]) => `
+      <tr><td>${label}</td><td>${d[key + '_Total'] ?? '-'}</td><td>${d[key + '_Grade'] ?? '-'}</td></tr>
+    `).join('');
+
+    document.getElementById('printArea').innerHTML = `
+      <div class="print-letterhead">
+        <div class="org">रयत शिक्षण संस्थेचे,</div>
+        <div class="school">न्यू इंग्लिश स्कूल कुरुल, ता. मोहोळ जि. सोलापूर</div>
+        <div class="title">— निकालपत्रक —</div>
+      </div>
+      <div class="print-meta">
+        <span><strong>विद्यार्थ्यांचे नाव:</strong> ${d.Name}</span>
+        <span><strong>रोल नंबर:</strong> ${d.RollNo}</span>
+        <span><strong>तुकडी:</strong> ${d.Class}${d.Division}</span>
+      </div>
+      <table class="print-table">
+        <thead><tr><th>विषय</th><th>एकूण गुण</th><th>श्रेणी</th></tr></thead>
+        <tbody>${printRows}</tbody>
+      </table>
+      <div class="print-summary">
+        <span>एकूण गुण: ${d.GrandTotal}</span>
+        <span>टक्केवारी: ${d.Percentage}%</span>
+        <span>शेरा: ${d.Remark}</span>
+        <span>गुणानुक्रम: #${d.Rank}</span>
+      </div>
+      <div class="print-remark">* सदर निकालपत्रक फक्त माहितीसाठी आहे. अधिकृत निकालपत्रकासाठी शाळेशी संपर्क साधा.</div>
+    `;
+
+    printBtn.classList.add('show');
+  } catch (err) {
+    note.className = 'note error';
+    note.textContent = '⚠️ निकाल आणताना अडचण आली. थोड्या वेळाने पुन्हा प्रयत्न करा.';
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+document.getElementById('printBtn').addEventListener('click', () => {
+  window.print();
+});
+</script>
 
 </body>
 </html>
